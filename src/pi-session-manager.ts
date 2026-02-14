@@ -16,7 +16,7 @@ import {
   writeTool,
   type AgentSession,
 } from '@mariozechner/pi-coding-agent';
-import { getModel, type Model } from '@mariozechner/pi-ai';
+import { getModel, type Api, type Model } from '@mariozechner/pi-ai';
 import { join } from 'node:path';
 
 import {
@@ -204,7 +204,7 @@ export class PiSessionManager {
     const cwd = settings.cwd ?? process.cwd();
     const persistence = forceInMemory
       ? 'memory'
-      : settings.sessionPersistence ?? DEFAULT_SESSION_PERSISTENCE;
+      : (settings.sessionPersistence ?? DEFAULT_SESSION_PERSISTENCE);
 
     const sessionManager =
       persistence === 'disk' ? SessionManager.create(cwd) : SessionManager.inMemory(cwd);
@@ -229,7 +229,7 @@ export class PiSessionManager {
     return session;
   }
 
-  private resolveModel(modelId: PiModelId, settings: PiSettings, logger: Logger): Model<any> {
+  private resolveModel(modelId: PiModelId, settings: PiSettings, logger: Logger): Model<Api> {
     const parsed = parseModelId(modelId, settings.defaultProvider);
     const registry = this.getModelRegistry(settings.agentDir);
 

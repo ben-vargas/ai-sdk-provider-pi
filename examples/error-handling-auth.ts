@@ -29,7 +29,9 @@ async function main() {
     }
   } catch (error) {
     if (isAuthenticationError(error)) {
-      console.error('Authentication error. Ensure Pi auth is configured for the selected provider/model.');
+      console.error(
+        'Authentication error. Ensure Pi auth is configured for the selected provider/model.',
+      );
       process.exit(2);
       return;
     }

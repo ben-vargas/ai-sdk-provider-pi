@@ -50,7 +50,10 @@ describe('stream-mapper', () => {
     );
 
     expect(mapped.parts[0]).toMatchObject({ type: 'stream-start' });
-    expect(mapped.parts[1]).toMatchObject({ type: 'response-metadata', modelId: 'claude-sonnet-4' });
+    expect(mapped.parts[1]).toMatchObject({
+      type: 'response-metadata',
+      modelId: 'claude-sonnet-4',
+    });
   });
 
   it('maps tool call lifecycle', () => {
@@ -108,7 +111,11 @@ describe('stream-mapper', () => {
     expect(start.parts[0]).toMatchObject({ type: 'tool-input-start', id: 't1' });
     expect(delta.parts[0]).toMatchObject({ type: 'tool-input-delta', id: 't1' });
     expect(end.parts[0]).toMatchObject({ type: 'tool-input-end', id: 't1' });
-    expect(end.parts[1]).toMatchObject({ type: 'tool-call', toolCallId: 't1', providerExecuted: true });
+    expect(end.parts[1]).toMatchObject({
+      type: 'tool-call',
+      toolCallId: 't1',
+      providerExecuted: true,
+    });
   });
 
   it('maps done event to finish', () => {

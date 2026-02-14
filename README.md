@@ -24,21 +24,21 @@ npm install ai-sdk-provider-pi ai@^6.0.0
 
 ## Feature Support
 
-| Feature                   | Support       | Notes                                                                 |
-| ------------------------- | ------------- | --------------------------------------------------------------------- |
-| Text generation           | Full          | `generateText()`, `streamText()`                                      |
-| Streaming                 | Full          | Real-time event streaming via `session.subscribe()`                   |
-| Tool observation          | Full          | Provider-executed tools with full lifecycle streaming                  |
-| Extended thinking         | Full          | `reasoning-start/delta/end` stream parts                              |
-| Abort/cancellation        | Full          | `AbortSignal` wired to `session.abort()`                              |
-| Session management        | Full          | Fresh per call or persistent via `sessionId`                          |
-| Image input (base64)      | Full          | `Uint8Array` or base64 string file parts                              |
-| Structured output (JSON)  | Best-effort   | Schema guidance in prompt; not provider-enforced                      |
-| Configurable logging      | Full          | Verbose mode, custom logger, or silent                                |
-| Image input (URL)         | Not supported | Use binary/base64 data instead                                       |
-| Embedding models          | Not supported | `NoSuchModelError`                                                    |
-| Image generation models   | Not supported | `NoSuchModelError`                                                    |
-| topP/topK                 | Not supported | Warnings emitted, values ignored                                     |
+| Feature                  | Support       | Notes                                                 |
+| ------------------------ | ------------- | ----------------------------------------------------- |
+| Text generation          | Full          | `generateText()`, `streamText()`                      |
+| Streaming                | Full          | Real-time event streaming via `session.subscribe()`   |
+| Tool observation         | Full          | Provider-executed tools with full lifecycle streaming |
+| Extended thinking        | Full          | `reasoning-start/delta/end` stream parts              |
+| Abort/cancellation       | Full          | `AbortSignal` wired to `session.abort()`              |
+| Session management       | Full          | Fresh per call or persistent via `sessionId`          |
+| Image input (base64)     | Full          | `Uint8Array` or base64 string file parts              |
+| Structured output (JSON) | Best-effort   | Schema guidance in prompt; not provider-enforced      |
+| Configurable logging     | Full          | Verbose mode, custom logger, or silent                |
+| Image input (URL)        | Not supported | Use binary/base64 data instead                        |
+| Embedding models         | Not supported | `NoSuchModelError`                                    |
+| Image generation models  | Not supported | `NoSuchModelError`                                    |
+| topP/topK                | Not supported | Warnings emitted, values ignored                      |
 
 ## Installation
 
@@ -143,19 +143,19 @@ import { pi } from 'ai-sdk-provider-pi';
 
 ### `PiSettings`
 
-| Setting              | Type                                                        | Default      | Description                                       |
-| -------------------- | ----------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| `cwd`                | `string`                                                    | `process.cwd()` | Working directory for Pi                       |
-| `thinkingLevel`      | `'off' \| 'minimal' \| 'low' \| 'medium' \| 'high' \| 'xhigh'` | `'medium'`   | Reasoning effort level                        |
-| `tools`              | `'coding' \| 'readOnly' \| 'all'`                           | `'coding'`   | Which Pi built-in tools to enable                 |
-| `instructions`       | `string`                                                    | —            | Custom instruction preamble prepended to every prompt |
-| `sessionId`          | `string`                                                    | —            | Enable session continuity across calls            |
-| `sessionPersistence` | `'memory' \| 'disk'`                                        | `'memory'`   | Session storage mode (requires `sessionId`)       |
-| `defaultProvider`    | `string`                                                    | —            | Fallback provider when model ID omits prefix      |
-| `maxToolResultSize`  | `number`                                                    | `10000`      | Truncation limit for tool results                 |
-| `agentDir`           | `string`                                                    | —            | Pi config directory                               |
-| `verbose`            | `boolean`                                                   | `false`      | Enable debug/info log output                      |
-| `logger`             | `Logger \| false`                                           | console      | Custom logger or `false` to disable all logging   |
+| Setting              | Type                                                           | Default         | Description                                           |
+| -------------------- | -------------------------------------------------------------- | --------------- | ----------------------------------------------------- |
+| `cwd`                | `string`                                                       | `process.cwd()` | Working directory for Pi                              |
+| `thinkingLevel`      | `'off' \| 'minimal' \| 'low' \| 'medium' \| 'high' \| 'xhigh'` | `'medium'`      | Reasoning effort level                                |
+| `tools`              | `'coding' \| 'readOnly' \| 'all'`                              | `'coding'`      | Which Pi built-in tools to enable                     |
+| `instructions`       | `string`                                                       | —               | Custom instruction preamble prepended to every prompt |
+| `sessionId`          | `string`                                                       | —               | Enable session continuity across calls                |
+| `sessionPersistence` | `'memory' \| 'disk'`                                           | `'memory'`      | Session storage mode (requires `sessionId`)           |
+| `defaultProvider`    | `string`                                                       | —               | Fallback provider when model ID omits prefix          |
+| `maxToolResultSize`  | `number`                                                       | `10000`         | Truncation limit for tool results                     |
+| `agentDir`           | `string`                                                       | —               | Pi config directory                                   |
+| `verbose`            | `boolean`                                                      | `false`         | Enable debug/info log output                          |
+| `logger`             | `Logger \| false`                                              | console         | Custom logger or `false` to disable all logging       |
 
 ### `dispose()`
 

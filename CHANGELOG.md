@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Project quality scripts for linting and formatting:
+  - `npm run lint` / `npm run lint:fix` (ESLint flat config)
+  - `npm run format` / `npm run format:check` (Prettier)
+- Tooling configuration files: `eslint.config.js`, `.prettierrc`, `.prettierignore`
+- Dev dependencies for lint/format: `eslint`, `@eslint/js`, `typescript-eslint`, `globals`, `prettier`
+
 ## [0.1.0] - 2026-02-14
 
 Initial release of the AI SDK Provider for Pi.
@@ -35,17 +43,17 @@ Initial release of the AI SDK Provider for Pi.
 
 ### Dependencies (resolved 2026-02-14)
 
-| Package | Version | Role |
-| --- | --- | --- |
-| `@ai-sdk/provider` | 3.0.8 | AI SDK v6 provider types |
-| `@ai-sdk/provider-utils` | 4.0.15 | AI SDK v6 provider utilities |
+| Package                         | Version | Role                                    |
+| ------------------------------- | ------- | --------------------------------------- |
+| `@ai-sdk/provider`              | 3.0.8   | AI SDK v6 provider types                |
+| `@ai-sdk/provider-utils`        | 4.0.15  | AI SDK v6 provider utilities            |
 | `@mariozechner/pi-coding-agent` | 0.52.12 | Pi agent session, tools, model registry |
-| `@mariozechner/pi-ai` | 0.52.12 | Pi model resolution (`getModel`) |
-| `@mariozechner/pi-agent-core` | 0.52.12 | Pi core types and events |
-| `zod` | 4.3.6 | Runtime settings validation |
-| `ai` | 6.0.86 | Dev — AI SDK (peer) |
-| `typescript` | 5.9.3 | Dev — compiler |
-| `vitest` | 4.0.18 | Dev — test runner |
-| `@vitest/coverage-v8` | 4.0.18 | Dev — coverage reporter |
-| `@types/node` | 25.2.3 | Dev — Node.js type definitions |
-| `tsup` | 8.5.1 | Dev — bundler |
+| `@mariozechner/pi-ai`           | 0.52.12 | Pi model resolution (`getModel`)        |
+| `@mariozechner/pi-agent-core`   | 0.52.12 | Pi core types and events                |
+| `zod`                           | 4.3.6   | Runtime settings validation             |
+| `ai`                            | 6.0.86  | Dev — AI SDK (peer)                     |
+| `typescript`                    | 5.9.3   | Dev — compiler                          |
+| `vitest`                        | 4.0.18  | Dev — test runner                       |
+| `@vitest/coverage-v8`           | 4.0.18  | Dev — coverage reporter                 |
+| `@types/node`                   | 25.2.3  | Dev — Node.js type definitions          |
+| `tsup`                          | 8.5.1   | Dev — bundler                           |

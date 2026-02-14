@@ -21,6 +21,10 @@
   },
   "scripts": {
     "build": "tsup",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -43,10 +47,15 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/node": "25.2.3",
     "@vitest/coverage-v8": "4.0.18",
     "ai": "6.0.86",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
     "tsup": "8.5.1",
+    "typescript-eslint": "^8.46.4",
     "typescript": "5.9.3",
     "vitest": "4.0.18"
   }

@@ -67,12 +67,16 @@ function getLatestUserMessage(prompt: LanguageModelV3Prompt) {
 
 function mapImagePart(part: LanguageModelV3FilePart, warnings: string[]): ImageContent | undefined {
   if (!part.mediaType.startsWith('image/')) {
-    warnings.push(`Unsupported file media type "${part.mediaType}". Only image/* is supported for Pi image input.`);
+    warnings.push(
+      `Unsupported file media type "${part.mediaType}". Only image/* is supported for Pi image input.`,
+    );
     return undefined;
   }
 
   if (part.data instanceof URL) {
-    warnings.push(`Image URL input (${part.data.toString()}) is not supported by Pi provider; use binary or base64 data.`);
+    warnings.push(
+      `Image URL input (${part.data.toString()}) is not supported by Pi provider; use binary or base64 data.`,
+    );
     return undefined;
   }
 

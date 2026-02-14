@@ -89,8 +89,16 @@ describe('pi-session-manager', () => {
   it('caches sessions by sessionId', async () => {
     const manager = new PiSessionManager();
 
-    const s1 = await manager.getOrCreateSession('anthropic/claude-sonnet-4', { sessionId: 'a' }, logger);
-    const s2 = await manager.getOrCreateSession('anthropic/claude-sonnet-4', { sessionId: 'a' }, logger);
+    const s1 = await manager.getOrCreateSession(
+      'anthropic/claude-sonnet-4',
+      { sessionId: 'a' },
+      logger,
+    );
+    const s2 = await manager.getOrCreateSession(
+      'anthropic/claude-sonnet-4',
+      { sessionId: 'a' },
+      logger,
+    );
 
     expect(s1).toBe(s2);
     expect(mocks.createAgentSessionMock).toHaveBeenCalledTimes(1);
@@ -151,7 +159,11 @@ describe('pi-session-manager', () => {
   it('disposes cached sessions', async () => {
     const manager = new PiSessionManager();
 
-    const session = await manager.getOrCreateSession('anthropic/claude-sonnet-4', { sessionId: 'd' }, logger);
+    const session = await manager.getOrCreateSession(
+      'anthropic/claude-sonnet-4',
+      { sessionId: 'd' },
+      logger,
+    );
     await manager.dispose();
 
     expect(session.dispose).toHaveBeenCalledTimes(1);

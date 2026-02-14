@@ -36,7 +36,9 @@ export function validateSettings(settings: unknown): ValidatedSettingsResult {
   if (!parsed.success) {
     return {
       valid: false,
-      errors: parsed.error.issues.map((issue) => `${issue.path.join('.') || 'settings'}: ${issue.message}`),
+      errors: parsed.error.issues.map(
+        (issue) => `${issue.path.join('.') || 'settings'}: ${issue.message}`,
+      ),
       warnings: [],
     };
   }
@@ -45,11 +47,15 @@ export function validateSettings(settings: unknown): ValidatedSettingsResult {
   const warnings: string[] = [];
 
   if (value.sessionPersistence === 'disk' && value.sessionId == null) {
-    warnings.push('sessionPersistence="disk" has no effect without sessionId; session continuity requires sessionId.');
+    warnings.push(
+      'sessionPersistence="disk" has no effect without sessionId; session continuity requires sessionId.',
+    );
   }
 
   if (value.defaultProvider != null && value.defaultProvider.trim().length === 0) {
-    warnings.push(`defaultProvider is empty. Expected provider/model format (e.g. ${DEFAULT_PROVIDER}/model-id).`);
+    warnings.push(
+      `defaultProvider is empty. Expected provider/model format (e.g. ${DEFAULT_PROVIDER}/model-id).`,
+    );
   }
 
   return {

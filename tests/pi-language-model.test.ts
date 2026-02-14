@@ -139,12 +139,22 @@ function createFakeSessionWithTools() {
       listener({
         type: 'message_update',
         message: baseAssistant,
-        assistantMessageEvent: { type: 'text_delta', contentIndex: 0, delta: 'Let me read that file.', partial: baseAssistant },
+        assistantMessageEvent: {
+          type: 'text_delta',
+          contentIndex: 0,
+          delta: 'Let me read that file.',
+          partial: baseAssistant,
+        },
       });
       listener({
         type: 'message_update',
         message: baseAssistant,
-        assistantMessageEvent: { type: 'text_end', contentIndex: 0, content: 'Let me read that file.', partial: baseAssistant },
+        assistantMessageEvent: {
+          type: 'text_end',
+          contentIndex: 0,
+          content: 'Let me read that file.',
+          partial: baseAssistant,
+        },
       });
       listener({
         type: 'message_update',
@@ -154,7 +164,12 @@ function createFakeSessionWithTools() {
       listener({
         type: 'message_update',
         message: baseAssistant,
-        assistantMessageEvent: { type: 'toolcall_delta', contentIndex: 1, delta: '{"path":"README.md"}', partial: baseAssistant },
+        assistantMessageEvent: {
+          type: 'toolcall_delta',
+          contentIndex: 1,
+          delta: '{"path":"README.md"}',
+          partial: baseAssistant,
+        },
       });
       listener({
         type: 'message_update',
@@ -163,7 +178,12 @@ function createFakeSessionWithTools() {
           type: 'toolcall_end',
           contentIndex: 1,
           partial: baseAssistant,
-          toolCall: { type: 'toolCall', id: 'tc-1', name: 'read', arguments: { path: 'README.md' } },
+          toolCall: {
+            type: 'toolCall',
+            id: 'tc-1',
+            name: 'read',
+            arguments: { path: 'README.md' },
+          },
         },
       });
       listener({
@@ -322,13 +342,19 @@ describe('pi-language-model', () => {
 
     const result = await model.doGenerate({
       prompt: [{ role: 'user', content: [{ type: 'text', text: 'hi' }] }],
-      responseFormat: { type: 'json', schema: { type: 'object', properties: { ok: { type: 'boolean' } } } },
+      responseFormat: {
+        type: 'json',
+        schema: { type: 'object', properties: { ok: { type: 'boolean' } } },
+      },
     });
 
     expect(result.providerMetadata).toEqual({ pi: { structuredOutputValidated: false } });
     expect(
       result.warnings.some(
-        (w) => 'details' in w && typeof w.details === 'string' && w.details.includes('structured outputs'),
+        (w) =>
+          'details' in w &&
+          typeof w.details === 'string' &&
+          w.details.includes('structured outputs'),
       ),
     ).toBe(true);
   });

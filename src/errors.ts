@@ -81,7 +81,9 @@ export function isAbortError(error: unknown): boolean {
   }
 
   const message = getLowerMessage(error);
-  return message.includes('aborted') || message.includes('cancelled') || message.includes('canceled');
+  return (
+    message.includes('aborted') || message.includes('cancelled') || message.includes('canceled')
+  );
 }
 
 export function isOutputLengthError(error: unknown): boolean {
@@ -91,7 +93,11 @@ export function isOutputLengthError(error: unknown): boolean {
   }
 
   const message = getLowerMessage(error);
-  return message.includes('context window') || message.includes('maximum context') || message.includes('max tokens');
+  return (
+    message.includes('context window') ||
+    message.includes('maximum context') ||
+    message.includes('max tokens')
+  );
 }
 
 export function isRetryableError(error: unknown): boolean {
@@ -177,7 +183,12 @@ function getLowerMessage(error: unknown): string {
 }
 
 function hasNamedError(error: unknown, name: string): boolean {
-  return typeof error === 'object' && error != null && 'name' in error && (error as { name?: unknown }).name === name;
+  return (
+    typeof error === 'object' &&
+    error != null &&
+    'name' in error &&
+    (error as { name?: unknown }).name === name
+  );
 }
 
 function getObjectString(error: unknown, key: string): string | undefined {
@@ -224,5 +235,9 @@ function isAssistantMessage(value: unknown): value is AssistantMessage {
   }
 
   const candidate = value as Partial<AssistantMessage>;
-  return candidate.role === 'assistant' && Array.isArray(candidate.content) && typeof candidate.stopReason === 'string';
+  return (
+    candidate.role === 'assistant' &&
+    Array.isArray(candidate.content) &&
+    typeof candidate.stopReason === 'string'
+  );
 }

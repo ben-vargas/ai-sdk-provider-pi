@@ -38,7 +38,7 @@ try {
 
   console.log('Mode: native generateObject');
   console.log(JSON.stringify(result.object, null, 2));
-} catch (error) {
+} catch {
   console.warn('Native generateObject failed, falling back to strict JSON prompting.');
 
   const fallback = await generateText({

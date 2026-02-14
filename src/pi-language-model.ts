@@ -9,7 +9,7 @@ import type {
   LanguageModelV3ToolCall,
   SharedV3Warning,
 } from '@ai-sdk/provider';
-import type { AgentSession, AgentSessionEvent } from '@mariozechner/pi-coding-agent';
+import type { AgentSession } from '@mariozechner/pi-coding-agent';
 import type { AssistantMessage } from '@mariozechner/pi-ai';
 
 import { DEFAULT_MAX_TOOL_RESULT_SIZE, PROVIDER_ID } from './constants.js';
@@ -66,7 +66,10 @@ export class PiLanguageModel implements LanguageModelV3 {
 
     warningStrings.push(...mappedPrompt.warnings);
 
-    const promptText = prependInstructionPreamble(mappedPrompt.instructionPreamble, mappedPrompt.text);
+    const promptText = prependInstructionPreamble(
+      mappedPrompt.instructionPreamble,
+      mappedPrompt.text,
+    );
     const maxToolResultSize = this.settings.maxToolResultSize ?? DEFAULT_MAX_TOOL_RESULT_SIZE;
 
     let finalAssistantMessage: AssistantMessage | undefined;
@@ -75,76 +78,84 @@ export class PiLanguageModel implements LanguageModelV3 {
     let responseMetadata: LanguageModelV3ResponseMetadata | undefined;
 
     try {
-      await this.sessionManager.runWithSession(this.modelId as PiModelId, this.settings, this.logger, async (session) => {
-        let unsubscribe: (() => void) | undefined;
-        const abortCleanup = this.attachAbort(session, options.abortSignal);
+      await this.sessionManager.runWithSession(
+        this.modelId as PiModelId,
+        this.settings,
+        this.logger,
+        async (session) => {
+          let unsubscribe: (() => void) | undefined;
+          const abortCleanup = this.attachAbort(session, options.abortSignal);
 
-        try {
-          unsubscribe = session.subscribe((event) => {
-            if (
-              event.type !== 'message_update' &&
-              event.type !== 'tool_execution_end' &&
-              event.type !== 'message_end'
-            ) {
-              return;
-            }
-
-            if (event.type === 'tool_execution_end') {
-              toolResults.push(
-                mapPiToolExecutionResult(
-                  {
-                    toolCallId: event.toolCallId,
-                    toolName: event.toolName,
-                    result: event.result,
-                    isError: event.isError,
-                  },
-                  maxToolResultSize,
-                ),
-              );
-              return;
-            }
-
-            if (event.type === 'message_end') {
-              if (isAssistantMessage(event.message)) {
-                finalAssistantMessage = event.message;
+          try {
+            unsubscribe = session.subscribe((event) => {
+              if (
+                event.type !== 'message_update' &&
+                event.type !== 'tool_execution_end' &&
+                event.type !== 'message_end'
+              ) {
+                return;
               }
-              return;
-            }
 
-            const assistantEvent = event.assistantMessageEvent;
+              if (event.type === 'tool_execution_end') {
+                toolResults.push(
+                  mapPiToolExecutionResult(
+                    {
+                      toolCallId: event.toolCallId,
+                      toolName: event.toolName,
+                      result: event.result,
+                      isError: event.isError,
+                    },
+                    maxToolResultSize,
+                  ),
+                );
+                return;
+              }
 
-            if (assistantEvent.type === 'start') {
-              responseMetadata = {
-                timestamp: new Date(assistantEvent.partial.timestamp),
-                modelId: assistantEvent.partial.model,
-              };
-            }
+              if (event.type === 'message_end') {
+                if (isAssistantMessage(event.message)) {
+                  finalAssistantMessage = event.message;
+                }
+                return;
+              }
 
-            if (assistantEvent.type === 'toolcall_end') {
-              observedToolCalls.set(assistantEvent.toolCall.id, mapPiToolCall(assistantEvent.toolCall));
-              return;
-            }
+              const assistantEvent = event.assistantMessageEvent;
 
-            if (assistantEvent.type === 'done') {
-              finalAssistantMessage = assistantEvent.message;
-              return;
-            }
+              if (assistantEvent.type === 'start') {
+                responseMetadata = {
+                  timestamp: new Date(assistantEvent.partial.timestamp),
+                  modelId: assistantEvent.partial.model,
+                };
+              }
 
-            if (assistantEvent.type === 'error') {
-              finalAssistantMessage = assistantEvent.error;
-            }
-          });
+              if (assistantEvent.type === 'toolcall_end') {
+                observedToolCalls.set(
+                  assistantEvent.toolCall.id,
+                  mapPiToolCall(assistantEvent.toolCall),
+                );
+                return;
+              }
 
-          await session.prompt(promptText, {
-            expandPromptTemplates: false,
-            source: 'rpc',
-            ...(mappedPrompt.images != null ? { images: mappedPrompt.images } : {}),
-          });
-        } finally {
-          unsubscribe?.();
-          abortCleanup();
-        }
-      });
+              if (assistantEvent.type === 'done') {
+                finalAssistantMessage = assistantEvent.message;
+                return;
+              }
+
+              if (assistantEvent.type === 'error') {
+                finalAssistantMessage = assistantEvent.error;
+              }
+            });
+
+            await session.prompt(promptText, {
+              expandPromptTemplates: false,
+              source: 'rpc',
+              ...(mappedPrompt.images != null ? { images: mappedPrompt.images } : {}),
+            });
+          } finally {
+            unsubscribe?.();
+            abortCleanup();
+          }
+        },
+      );
     } catch (error) {
       throw mapPiError(error);
     }
@@ -164,7 +175,11 @@ export class PiLanguageModel implements LanguageModelV3 {
 
     content.push(...toolResults);
 
-    const structuredOutputMetadata = this.getStructuredOutputMetadata(options, content, warningStrings);
+    const structuredOutputMetadata = this.getStructuredOutputMetadata(
+      options,
+      content,
+      warningStrings,
+    );
 
     const result: LanguageModelV3GenerateResult = {
       content,
@@ -196,7 +211,10 @@ export class PiLanguageModel implements LanguageModelV3 {
     warningStrings.push(...mappedPrompt.warnings);
 
     const warnings = toWarnings(warningStrings);
-    const promptText = prependInstructionPreamble(mappedPrompt.instructionPreamble, mappedPrompt.text);
+    const promptText = prependInstructionPreamble(
+      mappedPrompt.instructionPreamble,
+      mappedPrompt.text,
+    );
     const maxToolResultSize = this.settings.maxToolResultSize ?? DEFAULT_MAX_TOOL_RESULT_SIZE;
     const jsonRequested = options.responseFormat?.type === 'json';
 
@@ -266,7 +284,9 @@ export class PiLanguageModel implements LanguageModelV3 {
                 });
 
                 if (jsonRequested && !isValidJson(streamedText)) {
-                  this.logger.warn('Pi structured-output request completed with non-JSON text output.');
+                  this.logger.warn(
+                    'Pi structured-output request completed with non-JSON text output.',
+                  );
                 }
 
                 closeStream();
@@ -313,7 +333,9 @@ export class PiLanguageModel implements LanguageModelV3 {
     }
 
     const generatedText = content
-      .filter((part): part is Extract<LanguageModelV3Content, { type: 'text' }> => part.type === 'text')
+      .filter(
+        (part): part is Extract<LanguageModelV3Content, { type: 'text' }> => part.type === 'text',
+      )
       .map((part) => part.text)
       .join('');
 
@@ -367,7 +389,9 @@ function prependInstructionPreamble(instructionPreamble: string | undefined, tex
   return `${instructionPreamble}\n\n${text}`;
 }
 
-function mapAssistantMessageContent(message: AssistantMessage | undefined): LanguageModelV3Content[] {
+function mapAssistantMessageContent(
+  message: AssistantMessage | undefined,
+): LanguageModelV3Content[] {
   if (message == null) {
     return [];
   }

@@ -21,8 +21,14 @@ async function runStateless() {
     prompt: 'What token did I ask you to remember earlier? Reply with token only.',
   });
 
-  console.log('Stateless call 1:', first.text.trim().length > 0 ? first.text : '(no text returned)');
-  console.log('Stateless call 2:', second.text.trim().length > 0 ? second.text : '(no text returned)');
+  console.log(
+    'Stateless call 1:',
+    first.text.trim().length > 0 ? first.text : '(no text returned)',
+  );
+  console.log(
+    'Stateless call 2:',
+    second.text.trim().length > 0 ? second.text : '(no text returned)',
+  );
 }
 
 async function runWithMemorySession() {

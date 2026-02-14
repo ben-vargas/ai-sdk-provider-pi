@@ -27,7 +27,10 @@ describe('errors', () => {
   });
 
   it('keeps original timeout context in mapped timeout errors', () => {
-    const mapped = mapPiError({ code: 'ETIMEDOUT', message: 'socket timeout while reading response' });
+    const mapped = mapPiError({
+      code: 'ETIMEDOUT',
+      message: 'socket timeout while reading response',
+    });
 
     expect(APICallError.isInstance(mapped)).toBe(true);
     expect(mapped.message).toContain('socket timeout while reading response');
