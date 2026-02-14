@@ -20,7 +20,9 @@
     "node": ">=20"
   },
   "scripts": {
+    "clean": "rm -rf dist coverage .vitest",
     "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -28,7 +30,21 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run clean && npm run ci && npm run build",
+    "example:basic": "npx tsx examples/basic-usage.ts",
+    "example:streaming": "npx tsx examples/streaming.ts",
+    "example:events": "npx tsx examples/streaming-events.ts",
+    "example:tools": "npx tsx examples/tool-calling.ts",
+    "example:session": "npx tsx examples/session-management.ts",
+    "example:memory": "npx tsx examples/memory-comparison.ts",
+    "example:object": "npx tsx examples/generate-object-basic.ts",
+    "example:image": "npx tsx examples/image-analysis.ts",
+    "example:abort": "npx tsx examples/abort-signal.ts",
+    "example:auth": "npx tsx examples/error-handling-auth.ts",
+    "example:logging": "npx tsx examples/logging-custom-logger.ts"
   },
   "keywords": [
     "ai-sdk",
@@ -36,7 +52,7 @@
     "pi",
     "vercel"
   ],
-  "author": "",
+  "author": "Ben Vargas",
   "license": "MIT",
   "dependencies": {
     "@ai-sdk/provider": "3.0.8",

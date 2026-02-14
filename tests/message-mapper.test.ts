@@ -61,4 +61,35 @@ describe('message-mapper', () => {
     expect(mapped.images).toBeUndefined();
     expect(mapped.warnings.join('\n')).toContain('not supported');
   });
+
+  it('warns and falls back to empty text when no user message is provided', () => {
+    const mapped = mapPromptToPiMessage({
+      prompt: [{ role: 'system', content: 'system-only prompt' }],
+      settings: {},
+    });
+
+    expect(mapped.text).toBe('');
+    expect(mapped.warnings.join('\n')).toContain('No user message found in prompt');
+  });
+
+  it('warns on unsupported non-image file inputs', () => {
+    const mapped = mapPromptToPiMessage({
+      prompt: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'file',
+              data: 'dummy-pdf-data',
+              mediaType: 'application/pdf',
+            },
+          ],
+        },
+      ],
+      settings: {},
+    });
+
+    expect(mapped.images).toBeUndefined();
+    expect(mapped.warnings.join('\n')).toContain('Only image/* is supported');
+  });
 });

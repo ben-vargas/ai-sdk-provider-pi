@@ -7,14 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- Project quality scripts for linting and formatting:
-  - `npm run lint` / `npm run lint:fix` (ESLint flat config)
-  - `npm run format` / `npm run format:check` (Prettier)
-- Tooling configuration files: `eslint.config.js`, `.prettierrc`, `.prettierignore`
-- Dev dependencies for lint/format: `eslint`, `@eslint/js`, `typescript-eslint`, `globals`, `prettier`
-
 ## [0.1.0] - 2026-02-14
 
 Initial release of the AI SDK Provider for Pi.
@@ -39,7 +31,14 @@ Initial release of the AI SDK Provider for Pi.
 - **Call safety** - All provider calls use `expandPromptTemplates: false` and `source: 'rpc'`
 - **Process exit cleanup** - Automatic session disposal on process exit
 - **11 examples** - basic-usage, streaming, streaming-events, tool-calling, session-management, memory-comparison, generate-object-basic, image-analysis, abort-signal, error-handling-auth, logging-custom-logger
-- **38 unit tests** across 10 test files covering all modules
+- **40 unit tests** across 10 test files covering all modules
+- **Project quality scripts** - `lint`, `lint:fix`, `format`, `format:check` (ESLint + Prettier)
+- **Automation scripts** - `ci`, `clean`, `dev`, `prepare`, `prepublishOnly`
+- **Example run scripts** - `example:*` commands for each script in `examples/`
+- **Quality tooling configs** - `eslint.config.js`, `.prettierrc`, `.prettierignore`
+- **GitHub Actions CI** - workflow at `.github/workflows/ci.yml`
+- **Example catalog docs** - `examples/README.md`
+- **Operational docs** - `docs/LIMITATIONS.md` and `docs/TROUBLESHOOTING.md`
 
 ### Dependencies (resolved 2026-02-14)
 

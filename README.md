@@ -241,27 +241,35 @@ Retryable errors (timeouts, 429/5xx) are marked with `isRetryable: true`. Auth a
 - Structured outputs are best-effort (not provider-enforced)
 - `tools: 'all'` currently maps to an explicit built-in tool list; new Pi built-ins may require a provider update
 
+See also:
+
+- `docs/LIMITATIONS.md`
+- `docs/TROUBLESHOOTING.md`
+
 ## Examples
 
-Run examples from repo root (using `npx tsx`):
+Run curated examples from repo root:
 
 ```bash
-npx tsx examples/basic-usage.ts
-npx tsx examples/streaming.ts
-npx tsx examples/streaming-events.ts
-npx tsx examples/tool-calling.ts
-npx tsx examples/session-management.ts
-npx tsx examples/memory-comparison.ts
-npx tsx examples/generate-object-basic.ts
-npx tsx examples/image-analysis.ts
-npx tsx examples/abort-signal.ts
-npx tsx examples/error-handling-auth.ts
-npx tsx examples/logging-custom-logger.ts
+npm run example:basic
+npm run example:streaming
+npm run example:events
+npm run example:tools
+npm run example:session
+npm run example:memory
+npm run example:object
+npm run example:image
+npm run example:abort
+npm run example:auth
+npm run example:logging
 ```
+
+Example details and prerequisites are documented in `examples/README.md`.
 
 ## Development
 
 ```bash
+npm run ci
 npm run build
 npm run typecheck
 npm test
